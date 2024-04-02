@@ -46,14 +46,14 @@ int main(){
 
 int main() {
     int parallel_sum = 0, serial_sum = 0;
-
+    const int N=10000000;
     double start_parallel, end_parallel;
     clock_t serial_start, serial_end;
 
     start_parallel = omp_get_wtime();
 
     #pragma omp parallel for reduction(+:parallel_sum)
-    for (int i = 1; i < 1000; i++) {
+    for (int i = 1; i < N; i++) {
         parallel_sum += i;
     }
 
@@ -67,7 +67,7 @@ int main() {
 
     serial_start = clock();
 
-    for (int i = 1; i < 1000; i++) {
+    for (int i = 1; i < N; i++) {
         serial_sum += i;
     }
 
