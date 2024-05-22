@@ -6,10 +6,10 @@ int main(){
     double time=omp_get_wtick();
     #pragma omp parallel
     {
-        printf("Hello There! We are measuring time to execute this parallel region!\n");
+        printf("Hello from Thread %d\n",omp_get_thread_num());
     }
 
     printf("\n----------------------------\n");
-    printf("You have spent %f seconds to execute parallel region",time);
+    printf("Minimum time that can be measured using wtime() is %fs",time);
     printf("\n----------------------------\n");
 }
