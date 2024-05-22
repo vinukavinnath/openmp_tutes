@@ -1,84 +1,32 @@
-/*
-#include <stdio.h>
-#include <omp.h>
-#include <time.h>
-
-int main(){
-    int parallel_sum,serial_sum=0;
-
-    double start_parallel,end_parallel;
-    clock_t serial_start, serial_end;
-
-    start_parallel=omp_get_wtime();
-
-        #pragma omp parallel for
-        for(int i=1;i<1000;i++) {
-            parallel_sum+=i;
-        }
-        printf("Sum is %d",parallel_sum);
-
-    end_parallel=omp_get_wtime();
-    printf("\n-----------------------------\n");
-    printf("Parallel Execution time = %f",end_parallel-start_parallel);
-    printf("\n-----------------------------\n");
-
-    serial_start=clock();
-
-    for(int i=1;i<1000;i++) {
-            serial_sum+=i;
-        }
-    printf("Sum is %d",serial_sum);
-
-    serial_end=clock();
-    double serial_execution_time=(double)(serial_end-serial_start)/CLOCKS_PER_SEC;
-
-    printf("\n-----------------------------\n");
-    printf("Serial Execution time = %f",serial_execution_time);
-    printf("\n-----------------------------\n");
+#include<stdio.h>
+#include<omp.h>
 
 
-}
-*/
+int main()
+{
+   double start_time=omp_get_wtime();
+   printf("Start Time: %f\n",start_time);
 
-#include <stdio.h>
-#include <omp.h>
-#include <time.h>
+   double tick=omp_get_wtick();
+   double elapsed_time=0;
+   int N=10;
+   int sum=0;
 
-int main() {
-    int parallel_sum = 0, serial_sum = 0;
+   #pragma omp parallel for
 
-    double start_parallel, end_parallel;
-    clock_t serial_start, serial_end;
-
-    start_parallel = omp_get_wtime();
-
-    #pragma omp parallel for reduction(+:parallel_sum)
-    for (int i = 1; i < 1000; i++) {
-        parallel_sum += i;
+    for(int i=1;i<=N;i++){
+        printf("%d Thread is processing iteration %d\n",omp_get_thread_num(),i);
+        sum+=i;
     }
 
-    end_parallel = omp_get_wtime();
+    printf("Sum is %d\n",sum);
 
-    printf("Sum is %d\n", parallel_sum);
 
-    printf("-----------------------------\n");
-    printf("Parallel Execution time = %f\n", end_parallel - start_parallel);
-    printf("-----------------------------\n");
+   double end_time=omp_get_wtime();
+   printf("End Time: %f\n",end_time);
+   elapsed_time=end_time-start_time;
+    printf("Elapsed Time: %f\n",elapsed_time);
+   printf("Time Resolution: %f\n",tick);
 
-    serial_start = clock();
-
-    for (int i = 1; i < 1000; i++) {
-        serial_sum += i;
-    }
-
-    printf("Sum is %d\n", serial_sum);
-
-    serial_end = clock();
-    double serial_execution_time = (double)(serial_end - serial_start) / CLOCKS_PER_SEC;
-
-    printf("-----------------------------\n");
-    printf("Serial Execution time = %f\n", serial_execution_time);
-    printf("-----------------------------\n");
-
-    return 0;
 }
+
